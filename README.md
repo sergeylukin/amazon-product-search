@@ -15,6 +15,8 @@ or just run `composer require sergeylukin/amazon-product-search`
 # Usage
 
 ```php
+<?php require __DIR__ . '/vendor/autoload.php';
+
 use Sergeylukin\AmazonProductSearch as Amazon;
 
 $Product = Amazon::factory()->findOneProductByKeyword('latte cup');
@@ -22,7 +24,7 @@ $Product = Amazon::factory()->findOneProductByKeyword('latte cup');
 print_r($Product);
 ```
 
-outputs:
+sample output:
 
 ```php
 stdClass Object
