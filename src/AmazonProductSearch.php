@@ -147,7 +147,7 @@ class AmazonProductSearch {
     $purifier = new \HTMLPurifier($config);
     $html = $purifier->purify($html);
 
-    $html = preg_replace( "/\r|\n/", "", $html);
+    $html = preg_replace( "/\r|\n|\t/", "", $html);
 
     return $html;
   }

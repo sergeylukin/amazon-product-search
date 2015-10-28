@@ -2,7 +2,7 @@
   "name": "sergeylukin/amazon-product-search",
   "description": "Search for products on amazon.com by keyword",
   "type": "library",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "require": {
     "php": ">=5.4.0",
     "rmccue/requests": ">=1.0",
