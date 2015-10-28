@@ -32,10 +32,8 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     $product_page_fixture->body = '
       <div id="productDescription">
         <p>
-          <div>
             <img src="/some/image.jpg" />
             <p>The best latte cup you will ever drink latte from. Period.</p>
-          </div>
         </p>
       </div>
     ';
@@ -53,7 +51,7 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     assertThat($Product->title, is('Best latte cup'));
     assertThat($Product->price, is('$12.05'));
     assertThat($Product->image_uri, is('/latte-cup.jpg'));
-    assertThat($Product->description, is('The best latte cup you will ever drink latte from. Period.'));
+    assertThat($Product->description, is('<p>  The best latte cup you will ever drink latte from. Period.</p>'));
   }
 
 }

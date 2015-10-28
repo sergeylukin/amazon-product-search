@@ -40,14 +40,17 @@ class AmazonProductSearch {
     $price = $this->getFirstSearchResultPrice();
     $image_uri = $this->getFirstSearchResultImageURI();
 
-    $this->load($this->getFirstSearchResultProductURI());
-    $description = $this->getProductDescription();
+    $product_uri = $this->getFirstSearchResultProductURI();
+    if ($product_uri) {
+      $this->load($product_uri);
+      $description = $this->getProductDescription();
+    }
 
     $Product = new Stub();
     $Product->title = $title;
     $Product->price = $price;
     $Product->image_uri = $image_uri;
-    $Product->description = $description;
+    $Product->description = ($description ? $description : '');
 
     return $Product;
   }
@@ -71,6 +74,9 @@ class AmazonProductSearch {
     $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
       . "//*[contains(@class, 's-access-detail-page')]//h2";
     $title_element = $this->xpath->query($query)->item(0);
+    if (!$title_element) {
+      return '';
+    }
     $title = $title_element->nodeValue;
     return $title;
   }
@@ -80,6 +86,9 @@ class AmazonProductSearch {
     $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
       . "//*[contains(@class, 's-price')]";
     $price_element = $this->xpath->query($query)->item(0);
+    if (!$price_element) {
+      return '';
+    }
     $price = $price_element->nodeValue;
     return $price;
   }
@@ -89,6 +98,9 @@ class AmazonProductSearch {
     $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
       . "//*[contains(@class, 's-access-image')]";
     $image_element = $this->xpath->query($query)->item(0);
+    if (!$image_element) {
+      return '';
+    }
     $image_uri = $image_element->getAttribute('src');
     return $image_uri;
   }
@@ -98,18 +110,46 @@ class AmazonProductSearch {
     $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
       . "//*[contains(@class, 's-access-detail-page')]";
     $product_link_element = $this->xpath->query($query)->item(0);
+    if (!$product_link_element) {
+      return '';
+    }
     $product_uri = $product_link_element->getAttribute('href');
     return $product_uri;
   }
 
   private function getProductDescription()
   {
-    $query = "//*[@id='productDescription']//p";
+    $query = "//*[@id='productDescription' or @id='mas-product-description']";
     $product_description_element = $this->xpath->query($query)->item(0);
 
-    $product_description = trim($product_description_element->ownerDocument->textContent);
+    return $this->DOMNodeToHTML($product_description_element);
+  }
 
-    return $product_description;
+  private function DOMNodeToHTML($node, $xpath = null) {
+    $dom = new \DOMDocument();
+
+    if (!$node) {
+      return '';
+    }
+
+    $nodeCopy = $dom->importNode($node, true);
+    $html = $dom->saveXML($nodeCopy);
+
+    $config = \HTMLPurifier_Config::createDefault();
+    $config->set('AutoFormat.AutoParagraph', true);
+    $config->set('HTML.TidyLevel', 'heavy');
+    $config->set('HTML.AllowedAttributes', '');
+    $config->set('HTML.AllowedElements', array('p', 'strong', 'u', 'i', 'b'));
+    $config->set('AutoFormat.RemoveEmpty', true);
+    $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+    $config->set('Output.TidyFormat', true);
+    $config->set('Core.NormalizeNewlines', true);
+    $purifier = new \HTMLPurifier($config);
+    $html = $purifier->purify($html);
+
+    $html = preg_replace( "/\r|\n/", "", $html);
+
+    return $html;
   }
 
 }
