@@ -14,7 +14,7 @@ or just run `composer require sergeylukin/amazon-product-search`
 
 # Usage
 
-```
+```php
 use Sergeylukin\AmazonProductSearch as Amazon;
 
 $Product = Amazon::factory()->findOneProductByKeyword('latte cup');
@@ -24,7 +24,7 @@ print_r($Product);
 
 outputs:
 
-```
+```php
 stdClass Object
 (
  [title] => Best latte cup
