@@ -31,7 +31,7 @@ stdClass Object
 (
  [title] => Best latte cup
  [price] => $12.05
- [image_uri] => /latte-cup.jpg
+ [image_uri] => http://example.com/latte-cup.jpg
  [description] => The best latte cup you will ever drink latte from. Period.
 )
 ```
