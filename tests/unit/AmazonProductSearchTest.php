@@ -31,7 +31,12 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     $product_page_fixture = new stdClass();
     $product_page_fixture->body = '
       <div id="productDescription">
-        <p>The best latte cup you will ever drink latte from. Period.</p>
+        <p>
+          <div>
+            <img src="/some/image.jpg" />
+            <p>The best latte cup you will ever drink latte from. Period.</p>
+          </div>
+        </p>
       </div>
     ';
 

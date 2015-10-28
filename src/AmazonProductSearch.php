@@ -60,6 +60,8 @@ class AmazonProductSearch {
   {
     $result = $this->Http->get($uri)->body;
     $dom = new DOMDocument();
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
     @$dom->loadHTML($result);
     $this->xpath = new DOMXPath($dom);
   }
@@ -102,9 +104,10 @@ class AmazonProductSearch {
 
   private function getProductDescription()
   {
-    $query = "//*[@id='productDescription']//p[last()]";
+    $query = "//*[@id='productDescription']//p";
     $product_description_element = $this->xpath->query($query)->item(0);
-    $product_description = $product_description_element->nodeValue;
+
+    $product_description = trim($product_description_element->ownerDocument->textContent);
 
     return $product_description;
   }
