@@ -148,6 +148,7 @@ class AmazonProductSearch {
     $html = $purifier->purify($html);
 
     $html = preg_replace( "/\r|\n|\t/", "", $html);
+    $html = preg_replace('!\s{2,}!', '', $html);
 
     return $html;
   }

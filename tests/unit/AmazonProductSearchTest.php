@@ -29,14 +29,15 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     ';
 
     $product_page_fixture = new stdClass();
-    $product_page_fixture->body = '
-      <div id="productDescription">
+    $product_page_fixture->body = "
+      <div id=\"productDescription\">
         <p>
-            <img src="/some/image.jpg" />
+            <div><img src=\"/some/image.jpg\" /></div>
+            <p style=\"margin: 1em\">\t \n </p>
             <p>The best latte cup you will ever drink latte from. Period.</p>
         </p>
       </div>
-    ';
+    ";
 
     $Http = m::mock('Requests_Session');
     // Mock HTTP request to product page
@@ -51,7 +52,7 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     assertThat($Product->title, is('Best latte cup'));
     assertThat($Product->price, is('$12.05'));
     assertThat($Product->image_uri, is('/latte-cup.jpg'));
-    assertThat($Product->description, is('<p>  The best latte cup you will ever drink latte from. Period.</p>'));
+    assertThat($Product->description, is('<p>The best latte cup you will ever drink latte from. Period.</p>'));
   }
 
 }
