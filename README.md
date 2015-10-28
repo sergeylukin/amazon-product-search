@@ -34,6 +34,21 @@ stdClass Object
 )
 ```
 
+# Development
+
+Install [git](http://git-scm.com) and [composer](http://getcomposer.org)
+
+```
+git clone https://github.com/sergeylukin/amazon-product-search.git
+composer install
+```
+
+Run tests:
+
+```
+./vendor/bin/codecept run
+```
+
 # License
 
 MIT
