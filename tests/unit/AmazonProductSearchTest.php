@@ -52,7 +52,7 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
     assertThat($Product->title, is('Best latte cup'));
     assertThat($Product->price, is('$12.05'));
     assertThat($Product->image_uri, is('/latte-cup.jpg'));
-    assertThat($Product->description, is('<p>The best latte cup you will ever drink latte from. Period.</p>'));
+    assertThat($Product->description, is('<p>The best latte cup you will ever drink latte from. Period. </p>'));
   }
 
 }
