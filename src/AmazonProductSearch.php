@@ -7,6 +7,11 @@ use Requests_Session as Http;
 
 class AmazonProductSearch {
 
+  // Define reusable xPath query for selecting first element out
+  // of search results page
+  const SEARCH_RESULTS_FIRST_ELEMENT_XPATH =
+    "//*[@id='atfResults']//li[1 and not(contains(@class, 'acs-carousel-header'))]";
+
   public function __construct(Http $Http)
   {
     $this->Http = $Http;
@@ -61,35 +66,44 @@ class AmazonProductSearch {
 
   private function getFirstSearchResultTitle()
   {
-    $title_element = $this->xpath->query("//*[@id='atfResults']//li[1]//*[contains(@class, 's-access-detail-page')]//h2")->item(0);
+    $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
+      . "//*[contains(@class, 's-access-detail-page')]//h2";
+    $title_element = $this->xpath->query($query)->item(0);
     $title = $title_element->nodeValue;
     return $title;
   }
 
   private function getFirstSearchResultPrice()
   {
-    $price_element = $this->xpath->query("//*[@id='atfResults']//li[1]//*[contains(@class, 's-price')]")->item(0);
+    $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
+      . "//*[contains(@class, 's-price')]";
+    $price_element = $this->xpath->query($query)->item(0);
     $price = $price_element->nodeValue;
     return $price;
   }
 
   private function getFirstSearchResultImageURI()
   {
-    $image_element = $this->xpath->query("//*[@id='atfResults']//li[1]//*[contains(@class, 's-access-image')]")->item(0);
+    $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
+      . "//*[contains(@class, 's-access-image')]";
+    $image_element = $this->xpath->query($query)->item(0);
     $image_uri = $image_element->getAttribute('src');
     return $image_uri;
   }
 
   private function getFirstSearchResultProductURI()
   {
-    $product_link_element = $this->xpath->query("//*[@id='atfResults']//li[1]//*[contains(@class, 's-access-detail-page')]")->item(0);
+    $query = self::SEARCH_RESULTS_FIRST_ELEMENT_XPATH
+      . "//*[contains(@class, 's-access-detail-page')]";
+    $product_link_element = $this->xpath->query($query)->item(0);
     $product_uri = $product_link_element->getAttribute('href');
     return $product_uri;
   }
 
   private function getProductDescription()
   {
-    $product_description_element = $this->xpath->query("//*[@id='productDescription']//p[last()]")->item(0);
+    $query = "//*[@id='productDescription']//p[last()]";
+    $product_description_element = $this->xpath->query($query)->item(0);
     $product_description = $product_description_element->nodeValue;
 
     return $product_description;

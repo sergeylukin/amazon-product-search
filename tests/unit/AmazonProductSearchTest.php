@@ -13,6 +13,11 @@ class AmazonProductSearchTest extends \Codeception\TestCase\Test
       <div id="atfResults">
         <ul>
           <li>
+          <fig>
+            <article class="acs-carousel-header"></article>
+            </fig>
+          </li>
+          <li>
             <img class="s-access-image" src="/latte-cup.jpg" />
             <a href="/latte-cup" class="s-access-detail-page">
               <h2>Best latte cup</h2>
