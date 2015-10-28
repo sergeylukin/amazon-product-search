@@ -1,4 +1,4 @@
-# Amazon product search
+# Amazon product search [![Build Status](https://travis-ci.org/sergeylukin/amazon-product-search.png?branch=master)](https://travis-ci.org/sergeylukin/amazon-product-search)
 
 Library that allows searching for products on amazon.com store.
 

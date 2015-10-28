@@ -1,0 +1,36 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  # Hack and PHP virtual machine
+  #
+  # For more details:
+  # http://hhvm.com/
+  - hhvm
+
+matrix:
+  allow_failures:
+  # Don't panic if tests are failing on Hack and PHP virtual machine
+    - php: hhvm
+
+  # Mark build as finished before environment included in "allow_failures"
+  # directive finish
+  #
+  # For more details:
+  # http://blog.travis-ci.com/2013-11-27-fast-finishing-builds/
+  fast_finish: true
+
+before_script:
+  - composer self-update
+
+  # Install deps but install from dist if available.
+  # Supposed to run smoother on build server.
+  #
+  # For more details:
+  # https://getcomposer.org/doc/03-cli.md
+  - composer install --no-interaction --prefer-dist --dev
+
+script:
+  - ./vendor/bin/codecept run unit
